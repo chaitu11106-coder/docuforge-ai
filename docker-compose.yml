@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:16
+    container_name: docuforge-db
+    restart: always
+    environment:
+      POSTGRES_DB: docuforge
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: docuforge-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: docuforge
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+volumes:
+  pgdata:
