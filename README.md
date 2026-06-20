@@ -1,6 +1,6 @@
 # DocuForge AI
 
-**A document intelligence pipeline that extracts, verifies, and searches enterprise documents — built as a reference implementation of Livo.AI's core product lines.**
+**An end-to-end document intelligence pipeline that extracts, verifies, and searches enterprise documents using AI.**
 
 Upload any invoice or document. It gets read, structured into clean JSON, checked for fraud patterns, and made searchable by meaning — all in one automated pipeline.
 
@@ -139,7 +139,7 @@ ANTHROPIC_API_KEY=your-key-here
 
 ## Reference Case Study
 
-Modeled on a real accounting-firm workflow: automating invoice extraction, reconciliation, and anomaly detection across hundreds of monthly documents.
+Modeled on a real accounting-firm document workflow: automating invoice extraction, reconciliation, and anomaly detection across hundreds of monthly documents.
 
 - **500+ hours saved per month** in manual data entry
 - **40% faster** audit turnaround
@@ -150,4 +150,5 @@ Modeled on a real accounting-firm workflow: automating invoice extraction, recon
 ## Built By
 
 **Chaitanya Joshi** — MCA, Bangalore Institute of Technology
-Built as a 5-day sprint project to mirror the technical patterns used at enterprise AI consultancies like Livo.AI.
+
+A 5-day sprint project built to demonstrate end-to-end AI engineering: document extraction, fraud detection, semantic search, and full-stack deployment in one working system.
