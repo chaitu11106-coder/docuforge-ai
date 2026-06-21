@@ -6,7 +6,14 @@ import os
 from database import create_tables, save_invoice, get_all_invoices, get_anomaly_flags
 from extractor import extract_text_from_pdf, extract_invoice_fields
 from anomaly import run_anomaly_detection
-from search import build_index, search_invoices
+
+try:
+    from search import build_index, search_invoices
+    SEARCH_ENABLED = True
+except ImportError:
+    SEARCH_ENABLED = False
+    def build_index(): pass
+    def search_invoices(query, top_k=5): return []
 
 app = FastAPI(title="DocuForge AI", version="1.0")
 
@@ -56,7 +63,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     # run anomaly detection after every new invoice
     anomaly_result = run_anomaly_detection()
 
-    # rebuild the search index to include this new invoice
+    # rebuild the search index to include this new invoice (no-op if search disabled)
     build_index()
 
     return {
@@ -95,9 +102,11 @@ class SearchQuery(BaseModel):
 
 @app.post("/search")
 def search(payload: SearchQuery):
+    if not SEARCH_ENABLED:
+        return {"query": payload.query, "results": [], "message": "Semantic search is disabled in this deployment"}
+
     results = search_invoices(payload.query)
 
-    # enrich results with full invoice data
     all_invoices = get_all_invoices()
     invoice_map = {inv["id"]: inv for inv in all_invoices}
 
